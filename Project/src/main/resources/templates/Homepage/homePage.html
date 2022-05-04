@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head"></head>
+<head th:replace="fragments/header :: head"><title></title></head>
 <body>
 <nav th:replace="fragments/nav :: nav"></nav>
 <section th:include="fragments/section :: section"></section>
@@ -71,13 +71,13 @@
             </li>
             <li class="page-item" th:each="i: ${#numbers.sequence(1,totalPage)}">
                 <a th:if="${i !=currentPage}"
-                   th:href="@{'/homepage/page/'+${i}}+${keyword !=null ? '?keyword='+keyword:''}" class="page-link">[[${i}]]</a>
+                   th:href="@{'/homepage/page/'+${i}+${keyword !=null ? '?keyword='+keyword:''}}" class="page-link">[[${i}]]</a>
                 <span class="page-link" style="background-color: #5bc0de"
                       th:unless="${i !=currentPage }">[[${i}]]</span>
             </li>
             <li class="page-item">
                 <a th:if="${currentPage < totalPage}" class="page-link"
-                   th:href="@{'/homepage/page/'+ ${totalPage}}+${keyword !=null ? '?keyword='+keyword:''}">Last</a>
+                   th:href="@{'/homepage/page/'+ ${totalPage}+${keyword !=null ? '?keyword='+keyword:''}}">Last</a>
                 <span class="page-link" style="background-color: #5bc0de"
                       th:unless="${currentPage < totalPage}">Last</span>
             </li>

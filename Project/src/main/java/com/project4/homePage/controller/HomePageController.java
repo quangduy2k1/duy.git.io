@@ -131,7 +131,7 @@ public class HomePageController {
 
     @PostMapping("/homepage/user/login")
     public String checklogin(@RequestParam("email") String email, @RequestParam("password") String password, Model model, HttpSession session) {
-        if (userService.chek(email, password)) {
+        if (userService.check(email, password)) {
             session.setAttribute("UserNames", email);
             return "redirect:/homepage";
         } else {

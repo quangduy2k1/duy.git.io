@@ -1,44 +1,42 @@
 package com.project4.admin.service;
 
-import com.project4.admin.models.Category;
 import com.project4.admin.exception.ModelException;
+import com.project4.admin.models.Category;
 import com.project4.admin.repository.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
-    @Autowired private CategoryRepository repo;
-    public List<Category> listAll(){
-        return repo.findAll();
+    private final CategoryRepository categoryRepository;
+
+    public List<Category> listAll() {
+        return categoryRepository.findAll();
     }
+
     public void save(Category category) {
-        repo.save(category);
+        categoryRepository.save(category);
     }
+
     public Category get(Integer id) throws ModelException {
-        Optional<Category> result=repo.findById(id);
-        if (result.isPresent()){
-            return result.get();
+        return categoryRepository.findById(id).orElseThrow(() -> new ModelException("could not find any Category with Id" + id));
+    }
+
+    public void delete(Integer id) {
+        categoryRepository.deleteById(id);
+    }
+
+    public Page<Category> findName(int pageNumber, String categoryname) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, 2);
+        if (categoryname != null) {
+            return categoryRepository.findAllByName(categoryname, pageable);
         }
-        throw new ModelException("could not find any Category with Id" +id);
+        return categoryRepository.findAll(pageable);
     }
-    public void delete(Integer id){
-        repo.deleteById(id);
-    }
-    public Page<Category> findName(int pageNumber,String categoryname) {
-        Pageable pageable= PageRequest.of(pageNumber - 1,2);
-        if(categoryname!=null){
-            return repo.findAllByName(categoryname,pageable);
-        }
-        return repo.findAll(pageable);
-
-    }
-
-
 }

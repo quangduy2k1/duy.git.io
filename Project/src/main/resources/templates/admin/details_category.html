@@ -36,10 +36,6 @@
   }
 
   /* Float cancel and delete buttons and add an equal width */
-  .cancelbtn, .deletebtn {
-    float: left;
-    width: 45%;
-  }
   .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -75,9 +71,6 @@
 
   /* Change styles for cancel button and delete button on extra small screens */
   @media screen and (max-width: 300px) {
-    .cancelbtn, .deletebtn {
-      width: 200px;
-    }
   }</style>
 </head>
 <body>
@@ -100,23 +93,25 @@
 </nav>
 <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
   <div class="profile-sidebar">
-    <div class="profile-userpic">
+    <div class="profile-user">
       <img src="https://cdn.24h.com.vn/upload/4-2020/images/2020-11-07/Lamborghini-Aventador-5-1604738404-687-width660height517.jpg" class="img-responsive" alt="">
     </div>
-    <div class="profile-usertitle">
-      <div class="profile-usertitle-name">Admin</div>
-      <div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
+    <div class="profile-user title">
+      <div class="profile-user title-name">Admin</div>
+      <div class="profile-user title-status"><span class="indicator label-success"></span>Online</div>
     </div>
     <div class="clear"></div>
   </div>
   <div class="divider"></div>
   <form role="search">
     <div class="form-group">
-      <input type="text" class="form-control" placeholder="Search">
+      <label>
+        <input type="text" class="form-control" placeholder="Search">
+      </label>
     </div>
   </form>
   <ul class="nav menu">
-    <li ><a href="/admin/dashborad"><i class="fa fa-dashboard">&nbsp;</i> Dashboard</a></li>
+    <li ><a href="/admin/dashboard"><i class="fa fa-dashboard">&nbsp;</i> Dashboard</a></li>
     <li ><a href="/listAdmin"><em class="fa fa-user">&nbsp;</em> Admin</a></li>
     <li><a href="/user"><em class="fa fa-users">&nbsp;</em> User</a></li>
     <li class="active"><a href="/category"><em class="fa fa-bar-chart-o">&nbsp;</em>Category</a></li>
@@ -130,24 +125,24 @@
 </div><!--/.sidebar-->
 <div id="id01" class="modal">
   <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-  <form class="modal-content" action="/action_page.php">
+  <form class="modal-content">
     <div class="container">
       <h1>Logout Account ?</h1>
-      <p>Are you sure you want to logout your account ?</p>
+      <p>Are you sure you want to log out your account ?</p>
       <div class="clearfix">
-        <button type="button" class="cancelbtn btn btn-warning" style="margin-bottom: 10px;"><a href="/category" style="color: black">Cancel</a></button>&nbsp;
-        <button type="button" class="deletebtn btn btn-danger" style="margin-bottom: 10px;"><a href="/admin" style="color: white">Yes</a></button>
+        <button type="button" class="cancel btn btn-warning" style="margin-bottom: 10px;"><a href="/category" style="color: black">Cancel</a></button>&nbsp;
+        <button type="button" class="delete-btn btn btn-danger" style="margin-bottom: 10px;"><a href="/admin" style="color: white">Yes</a></button>
       </div>
     </div>
   </form>
 </div>
 <script>
   // Get the modal
-  var modal = document.getElementById('id01');
+  const modal = document.getElementById('id01');
 
-  // When the user clicks anywhere outside of the modal, close it
+  // When the user clicks anywhere outside the modal, close it
   window.onclick = function(event) {
-    if (event.target == modal) {
+    if (event.target === modal) {
       modal.style.display = "none";
     }
   }
@@ -180,7 +175,7 @@
       <th>Category</th>
       <th>Brand</th>
       <th>Height</th>
-      <th>Lenght</th>
+      <th>Length</th>
       <th>Speed</th>
       <th>Cylinder_capacity</th>
       <th>Images</th>
@@ -198,13 +193,13 @@
         <td>[[${product.category.CategoryName}]]</td>
         <td>[[${product.style.brandName}]]</td>
         <td>[[${product.height}]]</td>
-        <td>[[${product.lenght}]]</td>
+        <td>[[${product.length}]]</td>
         <td>[[${product.speed}]]</td>
         <td>[[${product.cylinder_capacity}]]</td>
         <td>
           <img  th:each="productImg,state: ${#strings.arraySplit(product.images,',')}" src="#"
                 th:if="${state.first}==true"
-                th:src="@{'/imagess/product/'+ ${productImg}}" height="64" width="100"/>
+                th:src="@{'/imagess/product/'+ ${productImg}}" height="64" width="100" alt=""/>
         </td>
       </tr>
     </th:block>
@@ -226,8 +221,6 @@
   </div>
 
 
-</div>	<!--/.main-->
-
 <script th:src="@{js/jquery-1.11.1.min.js}"></script>
 <script th:src="@{js/bootstrap.min.js}"></script>
 <script th:src="@{js/chart.min.js}"></script>
@@ -238,7 +231,7 @@
 <script th:src="@{js/custom.js}"></script>
 <script>
   window.onload = function () {
-    var chart1 = document.getElementById("line-chart").getContext("2d");
+    const chart1 = document.getElementById("line-chart").getContext("2d");
     window.myLine = new Chart(chart1).Line(lineChartData, {
       responsive: true,
       scaleLineColor: "rgba(0,0,0,.2)",
