@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+<nav th:replace="fragments/nav :: nav"></nav>
+<section th:include="fragments/section :: section"></section>
+<br/>
+    <div class="container">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>ProductName</th>
+                <th>Image</th>
+                <th>Price($)</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="pro: ${cart}">
+                <tr>
+                    <th:block th:each="img :${list1}">
+                        <td th:if="${pro.getKey()}==${img.productId}">[[${img.productName}]]</td>
+                        <td th:if="${pro.getKey()}==${img.productId}">
+                            <img th:each="productImg,state: ${#strings.arraySplit(img.images,',')}" src="#"
+                                 th:if="${state.first}==true"
+                                 th:src="@{'/imagess/product/'+ ${productImg}}" height="64" width="100"/>
+                        </td>
+                    </th:block>
+                    <td th:text="${#numbers.formatDecimal(pro.getValue(),0,'COMMA',1,'POINT')}"></td>
+                    <td><a th:href="@{'/delete/{key}'(key=${pro.getKey()})}">Delete</a></td>
+
+            </th:block>
+            </tbody>
+        </table>
+        <div class="row panel-body">
+            <h2 class="col-md-11" th:value="${sum}">Total: [[${#numbers.formatDecimal(sum,0,'COMMA',1,'POINT')}]]</h2>
+            <button type="button" class="btn btn-danger"><a th:href="@{'/homepage/saveCart'}">CheckOut</a>
+            </button>
+        </div>
+
+        <p>
+            <a th:href="@{'/homepage'}">Continue shopping</a>
+        </p>
+    </div>
+<div class="container"></div>
+    <footer th:include="fragments/footer :: footer" class="footer"></footer>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<nav xmlns:th="http://www.thymeleaf.org" class="sticky-top" th:fragment="nav">
+    <div class="top_bar">
+        <div class="container">
+            <div class="row">
+                <div class="col d-flex flex-row">
+                    <div class="top_bar_contact_item">
+                        <div class="top_bar_icon"><img
+                                src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1560918577/phone.png"
+                                alt=""></div>
+                        +91 9823 132 111
+                    </div>
+                    <div class="top_bar_contact_item">
+                        <div class="top_bar_icon"><img
+                                src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1560918597/mail.png" alt="">
+                        </div>
+                        <a href="mailto:fastsales@gmail.com">contact@supercar.com</a>
+                    </div>
+                    <div class="top_bar_content ml-auto">
+                        <div class="top_bar_menu">
+                            <ul class="standard_dropdown top_bar_dropdown">
+                                <li><a href="#">English<i class="fas fa-chevron-down"></i></a>
+                                    <ul>
+                                        <li><a href="#">Italian</a></li>
+                                        <li><a href="#">Spanish</a></li>
+                                        <li><a href="#">Japanese</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">$ US dollar<i class="fas fa-chevron-down"></i></a>
+                                    <ul>
+                                        <li><a href="#">EUR Euro</a></li>
+                                        <li><a href="#">GBP British Pound</a></li>
+                                        <li><a href="#">JPY Japanese Yen</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="top_bar_user">
+                            <div class="user_icon"><img
+                                    src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1560918647/user.svg"
+                                    alt=""></div>
+                            <div><a th:if="${session.UserNames}==null" href="/homepage/user/registration">Register</a></div>
+                            <div><a th:if="${session.UserNames}==null" href="/homepage/user/login">Sign in</a></div>
+                            <div>
+                                <th:block th:each="user :${userList}">
+                                    <a th:if="${session.UserNames}==${user.email}"
+                                       th:text="${user.fullName}"></a>
+                                </th:block>
+                            </div> |
+                            <div><a th:if="${session.UserNames}!=null" href="/homepage/user/login">Logout</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header_main">
+        <div class="container">
+            <div class="row">
+                <!-- Logo -->
+                <div class="col-lg-2 col-sm-3 col-3 order-1">
+                    <div class="logo_container">
+                        <div class="logo"><a href="/homepage">SuperCar</a></div>
+                    </div>
+                </div> <!-- Search -->
+                <div class="col-lg-6 col-12 order-lg-2 order-3 text-lg-left text-right">
+                    <div class="header_search">
+                        <div class="header_search_content">
+                            <div class="header_search_form_container">
+                                <form th:action="@{/homepage/page/1}" class="header_search_form clearfix"><input type="search"
+                                                                                                                 required="required"
+                                                                                                                 class="header_search_input"
+                                                                                                                 placeholder="Search for products..." name="keyword" id="keyword" th:value="${keyword}">
+
+                                    <button type="submit" class="header_search_button trans_300" value="Submit"><img
+                                            src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1560918770/search.png"
+                                            alt=""></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- Wishlist -->
+                <div class="col-lg-4 col-9 order-lg-3 order-2 text-lg-left text-right">
+                    <div class="wishlist_cart d-flex flex-row align-items-center justify-content-end">
+                        <div class="wishlist d-flex flex-row align-items-center justify-content-end">
+                            <div class="wishlist_icon"><img
+                                    src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1560918681/heart.png"
+                                    alt=""></div>
+                            <div class="wishlist_content">
+                                <div class="wishlist_text"><a href="#">Wishlist</a></div>
+                                <div class="wishlist_count">10</div>
+                            </div>
+                        </div> <!-- Cart -->
+                        <div class="cart">
+                            <div class="cart_container d-flex flex-row align-items-center justify-content-end">
+                                <div class="cart_icon"><img
+                                        src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1560918704/cart.png"
+                                        alt="">
+                                    <div class="cart_count"><span>3</span></div>
+                                </div>
+                                <div class="cart_content">
+                                    <div class="cart_text"><a href="/homepage/cart">Cart</a></div>
+                                    <div class="cart_price">$185</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- Main Navigation -->
+    <nav class="main_nav">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="main_nav_content d-flex flex-row">
+                        <!-- Categories Menu -->
+                        <!-- Main Nav Menu -->
+                        <div class="main_nav_menu">
+                            <ul class="standard_dropdown main_nav_dropdown">
+                                <li><a href="/homepage">Home<i class="fas fa-chevron-down"></i></a></li>
+                                <li class="hassubs"><a href="#">Category<i class="fas fa-chevron-down"></i></a>
+                                    <ul>
+                                        <th:block th:each="category : ${listt}">
+                                            <li>
+                                                <a th:href="@{'/homepage/details_category/'+${category.CategoryName}+'/'+1}">[[${category.CategoryName}]]<i
+                                                        class="fas fa-chevron-down"></i></a></li>
+                                        </th:block>
+                                    </ul>
+                                </li>
+                                <li class="hassubs"><a href="#">Brands<i
+                                        class="fas fa-chevron-down"></i></a>
+                                    <ul>
+                                        <th:block th:each="brand : ${list}">
+
+                                            <li><a th:href="@{'/homepage/details_brand/'+${brand.brandName}+'/'+1}">[[${brand.brandName}]]<i
+                                                    class="fas fa-chevron-down"></i></a>
+
+                                                <ul>
+                                                    <th:block th:each="product,state : ${list1}">
+                                                        <li th:if="${brand.brandId}==${product.style.brandId}"><a
+                                                                th:href="@{'/homepage/infor/'+${product.productId}+'/'+${product.style.brandName}+'/'+1}">[[${product.productName}]]<i
+                                                                class="fas fa-chevron-down"></i></a></li>
+                                                    </th:block>
+                                                </ul>
+
+                                            </li>
+
+                                        </th:block>
+
+                                    </ul>
+                                </li>
+                                <li class="hassubs"><a href="#">Pages<i class="fas fa-chevron-down"></i></a>
+                                    <ul>
+                                        <li><a href="/homepage">Shop<i class="fas fa-chevron-down"></i></a></li>
+                                        <li><a href="/homepage">Product<i class="fas fa-chevron-down"></i></a>
+                                        </li>
+                                        <li><a href="#">Blog<i class="fas fa-chevron-down"></i></a></li>
+                                        <li><a href="#">Blog Post<i class="fas fa-chevron-down"></i></a>
+                                        </li>
+                                        <li><a href="#">Regular Post<i
+                                                class="fas fa-chevron-down"></i></a></li>
+                                        <li><a href="#">Cart<i class="fas fa-chevron-down"></i></a></li>
+                                        <li><a href="/homepage/contact">Contact<i class="fas fa-chevron-down"></i></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Blog<i class="fas fa-chevron-down"></i></a></li>
+                                <li><a href="/homepage/contact">Contact<i class="fas fa-chevron-down"></i></a></li>
+                            </ul>
+                        </div> <!-- Menu Trigger -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</nav>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/header :: head"></head>
+<body>
+<nav th:replace="fragments/nav :: nav"></nav>
+<section th:include="fragments/section :: section"></section>
+
+<div class="container">
+    <div class="text-center">
+        <h1 class="text-capitalize product-title">All products</h1>
+    </div>
+</div>
+<marquee id="marq"  behavior="alternate" scrolldelay="0" onmouseover="this.stop()" onmouseout="this.start()">
+    <th:block th:each="brand : ${list}">
+        <a th:href="@{'/homepage/details_brand/'+${brand.brandName}+'/'+1}"><img th:src="@{'/imagess/category/'+${brand.logo}}" width="200" height="200" style="border-radius: 20px"/> </a>&nbsp;&nbsp;
+    </th:block>
+</marquee>
+<br/>
+<div class="row" id="product-items">
+    <th:block th:each="product ,status: ${lists} ">
+        <div class="col-sm-8 col-lg-3 ">
+            <div class="product" style="border-radius: 20px">
+                <div class="stars">
+                    <input class="star star-5" id="star-5" type="radio" name="star"/>
+                    <label class="star star-5" for="star-5"></label>
+                    <input class="star star-4" id="star-4" type="radio" name="star"/>
+                    <label class="star star-4" for="star-4"></label>
+                    <input class="star star-3" id="star-3" type="radio" name="star"/>
+                    <label class="star star-3" for="star-3"></label>
+                    <input class="star star-2" id="star-2" type="radio" name="star"/>
+                    <label class="star star-2" for="star-2"></label>
+                    <input class="star star-1" id="star-1" type="radio" name="star"/>
+                    <label class="star star-1" for="star-1"></label>
+                </div>
+                <p style="text-align:center;"> <img th:each="productImg,state: ${#strings.arraySplit(product.images,',')}" src="#"
+                                                    th:if="${state.first}==true"
+                                                    th:src="@{'/imagess/product/'+ ${productImg}}"   class="card-img-top product-img" style="height: 500px;">
+                </p>
+                <div class="caption">
+                    <div class="caption-text">
+                        <h3 style="border-top:2px solid white;border-bottom:2px solid white;padding:15px;color: white">[[${product.productName}]]</h3>
+                        <p style="color: white">[[${#numbers.formatDecimal(product.price,0,'COMMA',1,'POINT')}]]<i
+                                class="fas fa-dollar-sign"></i></p>
+                        <button type="button" class="btn btn-warning"><a th:href="@{'/homepage/infor/'+${product.productId}+'/'+${product.style.brandName}+'/'+1}"><i class="fa fa-shopping-cart" style="color: white">Infor</i></a></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+    </th:block>
+</div>
+<br/>
+<div class="row">
+    <th:block th:each="product ,status: ${lists} ">
+        <nav aria-label="Page navigation example" th:if="${status.first}==true"style="margin: auto;text-align: center">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{'/homepage/details_category/'+ ${product.category.categoryName}+'/'+1}" tabindex="-1">First</a>
+                </li>
+                <li class="page-item" th:each="i: ${#numbers.sequence(1,totalPage)}">
+                    <a th:if="${i !=cur}" th:href="@{'/homepage/details_category/'+ ${product.category.categoryName}+'/'+${i}}" class="page-link">[[${i}]]</a>
+                    <span class="page-link" style="background-color: #5bc0de" th:unless="${i !=cur }">[[${i}]]</span>
+                </li>
+                <li class="page-item">
+                    <a th:if="${cur < totalPage}" class="page-link" th:href="@{'/homepage/details_category/'+ ${product.category.categoryName}+'/'+${totalPage}}">Last</a>
+                    <span class="page-link" style="background-color: #5bc0de" th:unless="${cur < totalPage}">Last</span>
+                </li>
+            </ul>
+        </nav>
+    </th:block>
+</div>
+</div>
+<br/>
+<footer th:include="fragments/footer :: footer" class="footer"></footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+</body>
+</html>

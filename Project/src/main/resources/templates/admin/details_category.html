@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SuperCar - Admin</title>
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/css/datepicker3.css}" rel="stylesheet">
+  <link th:href="@{/css/styles.css}" rel="stylesheet">
+  <!--Custom Font-->
+
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/font-awesome-4.7.0/css/font-awesome.min.css}">
+  <!--[if lt IE 9]>
+  <script th:src="@{js/html5shiv.js}"></script>
+  <script th:src="@{js/respond.min.js}"></script>
+  <![endif]-->
+
+  <style>* {box-sizing: border-box}
+
+  /* Set a style for all buttons */
+  button {
+    background-color: #04AA6D;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px ;
+    border-radius:15px ;
+    cursor: pointer;
+    opacity: 0.9;
+    height: 45px;
+  }
+
+  button:hover {
+    opacity:1;
+  }
+
+  /* Float cancel and delete buttons and add an equal width */
+  .cancelbtn, .deletebtn {
+    float: left;
+    width: 45%;
+  }
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    width: 72%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    padding-top: 50px;
+    text-align: center;
+    margin: auto;
+
+  }
+
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+
+  /* Style the horizontal ruler */
+  hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+  }
+
+  .clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  /* Change styles for cancel button and delete button on extra small screens */
+  @media screen and (max-width: 300px) {
+    .cancelbtn, .deletebtn {
+      width: 200px;
+    }
+  }</style>
+</head>
+<body>
+<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target="#sidebar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><span>SuperCar</span>Admin</a>
+      <ul class="nav navbar-top-links navbar-right">
+        <p class="navbar-brand" th:text= "${session.UserName}"></p>
+      </ul>
+    </div>
+  </div><!-- /.container-fluid -->
+</nav>
+<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+  <div class="profile-sidebar">
+    <div class="profile-userpic">
+      <img src="https://cdn.24h.com.vn/upload/4-2020/images/2020-11-07/Lamborghini-Aventador-5-1604738404-687-width660height517.jpg" class="img-responsive" alt="">
+    </div>
+    <div class="profile-usertitle">
+      <div class="profile-usertitle-name">Admin</div>
+      <div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="divider"></div>
+  <form role="search">
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Search">
+    </div>
+  </form>
+  <ul class="nav menu">
+    <li ><a href="/admin/dashborad"><i class="fa fa-dashboard">&nbsp;</i> Dashboard</a></li>
+    <li ><a href="/listAdmin"><em class="fa fa-user">&nbsp;</em> Admin</a></li>
+    <li><a href="/user"><em class="fa fa-users">&nbsp;</em> User</a></li>
+    <li class="active"><a href="/category"><em class="fa fa-bar-chart-o">&nbsp;</em>Category</a></li>
+    <li><a href="/brand"><em class="fa fa-braille">&nbsp;</em>Brand</a></li>
+    <li><a href="/product"><em class="fa fa-list-ul">&nbsp;</em>Product</a></li>
+    <li><a href="/order"><em class="fa fa-shopping-cart">&nbsp;</em> Order</a></li>
+    <li><a href="/feedback"><em class="fa fa-comment">&nbsp;</em> FeedBack</a></li>
+    <li><a href="/homepage"><em class="fa fa-home">&nbsp;</em> HomePage</a></li>
+    <li><a onclick="document.getElementById('id01').style.display='block'"><em class="fa fa-power-off" ></em> Logout</a></li>
+  </ul>
+</div><!--/.sidebar-->
+<div id="id01" class="modal">
+  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+  <form class="modal-content" action="/action_page.php">
+    <div class="container">
+      <h1>Logout Account ?</h1>
+      <p>Are you sure you want to logout your account ?</p>
+      <div class="clearfix">
+        <button type="button" class="cancelbtn btn btn-warning" style="margin-bottom: 10px;"><a href="/category" style="color: black">Cancel</a></button>&nbsp;
+        <button type="button" class="deletebtn btn btn-danger" style="margin-bottom: 10px;"><a href="/admin" style="color: white">Yes</a></button>
+      </div>
+    </div>
+  </form>
+</div>
+<script>
+  // Get the modal
+  var modal = document.getElementById('id01');
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+  <div class="row">
+    <ol class="breadcrumb">
+      <li>
+        <a href="#">
+          <em class="fa fa-home"></em>
+        </a>
+      </li>
+      <li class="active">DetailsProduct</li>
+    </ol>
+  </div><!--/.row-->
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">DetailsProduct</h1>
+    </div>
+  </div><!--/.row-->
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+      <th>Id</th>
+      <th>ProductName</th>
+      <th>Price</th>
+      <th>Description</th>
+      <th>Weight</th>
+      <th>Category</th>
+      <th>Brand</th>
+      <th>Height</th>
+      <th>Lenght</th>
+      <th>Speed</th>
+      <th>Cylinder_capacity</th>
+      <th>Images</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="product,status:${lists} ">
+
+      <tr>
+        <td>[[${product.productId}]]</td>
+        <td>[[${product.productName}]]</td>
+        <td>[[${product.price}]]</td>
+        <td>[[${product.description}]]</td>
+        <td>[[${product.weight}]]</td>
+        <td>[[${product.category.CategoryName}]]</td>
+        <td>[[${product.style.brandName}]]</td>
+        <td>[[${product.height}]]</td>
+        <td>[[${product.lenght}]]</td>
+        <td>[[${product.speed}]]</td>
+        <td>[[${product.cylinder_capacity}]]</td>
+        <td>
+          <img  th:each="productImg,state: ${#strings.arraySplit(product.images,',')}" src="#"
+                th:if="${state.first}==true"
+                th:src="@{'/imagess/product/'+ ${productImg}}" height="64" width="100"/>
+        </td>
+      </tr>
+    </th:block>
+    </tbody>
+  </table>
+  <th:block th:each="product,status:${lists} ">
+    <nav aria-label="Page navigation example" th:if="${status.first}==true">
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" th:href="@{'/category/details/'+ ${product.category.categoryName}+'/'+1}">First</a></li>
+        <li class="page-item" th:each="i: ${#numbers.sequence(1,totalPage)}">
+          <a th:if="${i !=currentPage}" th:href="@{'/category/details/'+ ${product.category.categoryName}+'/'+${i}}">[[${i}]]</a>
+          <span style="background-color: #5bc0de" th:unless="${i !=currentPage }">[[${i}]]</span>
+        </li>
+        <li class="page-item"><a class="page-link" th:href="@{'/category/details/'+ ${product.category.categoryName}+'/'+${totalPage}}">Last</a></li>
+      </ul>
+    </nav>
+  </th:block>
+  <button type="button" class="btn btn-warning"><a th:href="@{/category}">Back</a></button>
+  </div>
+
+
+</div>	<!--/.main-->
+
+<script th:src="@{js/jquery-1.11.1.min.js}"></script>
+<script th:src="@{js/bootstrap.min.js}"></script>
+<script th:src="@{js/chart.min.js}"></script>
+<script th:src="@{js/chart-data.js}"></script>
+<script th:src="@{js/easypiechart.js}"></script>
+<script th:src="@{js/easypiechart-data.js}"></script>
+<script th:src="@{js/bootstrap-datepicker.js}"></script>
+<script th:src="@{js/custom.js}"></script>
+<script>
+  window.onload = function () {
+    var chart1 = document.getElementById("line-chart").getContext("2d");
+    window.myLine = new Chart(chart1).Line(lineChartData, {
+      responsive: true,
+      scaleLineColor: "rgba(0,0,0,.2)",
+      scaleGridLineColor: "rgba(0,0,0,.05)",
+      scaleFontColor: "#c5c7cc"
+    });
+  };
+</script>
+
+</body>
+</html>

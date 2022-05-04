@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: head"></head>
+<body>
+<nav th:replace="fragments/nav :: nav"></nav>
+<section th:include="fragments/section :: section"></section>
+<br/>
+<div class="container">
+
+  <h1 class="jumbotron">
+    <span sec:authentication="name"></span>'s Details Cart
+  </h1>
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+      <th>Name</th>
+      <th>Price($)</th>
+      <th>Qty</th>
+      <th>Image</th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="pro: ${lists}">
+      <tr>
+        <th:block th:each="ab :${hihi}">
+          <td th:if="${ab.productId}==${pro.product.productId}">[[${ab.productName}]]</td>
+        </th:block>
+        <td>[[${#numbers.formatDecimal(pro.price,0,'COMMA',1,'POINT')}]]</td>
+        <td>[[${pro.qty}]]</td>
+        <th:block th:each="img :${hihi}">
+          <td th:if="${pro.product.productId}==${img.productId}">
+            <img th:each="productImg,state: ${#strings.arraySplit(img.images,',')}" src="#"
+                 th:if="${state.first}==true"
+                 th:src="@{'/imagess/product/'+ ${productImg}}" height="64" width="100"/>
+          </td>
+
+        </th:block>
+        <td><a href="#">Delete</a></td>
+    </th:block>
+    </tbody>
+  </table>
+  <p>
+    <a th:href="@{'/homepage/cart'}">BackCart</a>
+  </p>
+
+</div>
+<footer th:include="fragments/footer :: footer" class="footer"></footer>
+
+</body>
+</html>
